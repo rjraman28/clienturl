@@ -1,0 +1,33 @@
+<?php
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+
+/**
+ * Implements hook_entity_base_field_info().
+ *
+ * Attaches a custom field 'field_custom_tocken' to all nodes.
+ */
+function client_url_entity_base_field_info(EntityTypeInterface $entity_type) {
+  // Whether the entity type is 'node'.
+  if ($entity_type->id() == 'node') {
+    return [
+      'field_client_url' => BaseFieldDefinition::create('client_url_type')
+        ->setName('field_client_url')
+        ->setLabel(t('Client URLs'))
+        ->setDeleted(FALSE)
+        ->setDescription(t('Displaying client urls to content entities.'))
+        ->setDisplayOptions('view', [
+          'label' => 'hidden',
+          'type' => 'author',
+          'weight' => 0,
+        ])
+        ->setDisplayOptions('form', [
+          'type' => 'client_url_type',
+          'weight' => 5,
+        ])
+        ->setDisplayConfigurable('form', TRUE)
+        ->setDisplayConfigurable('view', TRUE),
+    ];
+  }
+}
